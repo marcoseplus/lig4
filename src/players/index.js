@@ -1,10 +1,12 @@
-import MarcosScript from "./myScript/index.js";
+import MyScript from "./myScript/index.js";
 
 const players = {
   data: [
     {
       name: "Marcos",
-      script: MarcosScript,
+      script: async () => {
+        return await MyScript();
+      },
       photo: "./src/images/marcos.jpg",
     }
   ],

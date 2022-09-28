@@ -1,4 +1,6 @@
 const checkEquality = (line, player) => {
+  if (!line) return false
+  
   return line.every($boardItem => {
     if (!$boardItem) return false
     const $ball = $boardItem.querySelector('.ball')

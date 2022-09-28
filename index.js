@@ -6,11 +6,11 @@ import resetBoard from "./src/game-rules/resetBoard.js";
 import verifyGame from "./src/game-rules/verifyGame.js";
 import players from "./src/players/index.js";
 
-const $butVsBotButton = document.querySelector(".button-auto");
-const $buttonpBotPlay = document.querySelector(".button-play");
-const $boardColumnList = document.querySelectorAll(".board-column");
-const $meVsBot = document.querySelector(".button-me-vs-bot");
-const $botVsMe = document.querySelector(".button-bot-vs-me");
+const $butVsBotButton = document.querySelector(".button-auto")
+const $buttonpBotPlay = document.querySelector(".button-play")
+const $boardColumnList = document.querySelectorAll(".board-column")
+const $meVsBot = document.querySelector(".button-me-vs-bot")
+const $botVsMe = document.querySelector(".button-bot-vs-me")
 const $buttonResetBoard = document.querySelector('.button-reset')
 const $autoReset = document.querySelector('#auto-reset')
 
@@ -37,8 +37,10 @@ $boardColumnList.forEach(($boardColumn, index) => {
     player = player === 0 ? 1 : 0;
 
     if (mevsbot || botVsMe) {
-      setTimeout(() => {
-        move(player, players.getAll()[0].script(getBoardInfo(), player));
+      setTimeout(async () => {
+        const playerMove = await players.getAll()[0].script(getBoardInfo(), player)
+        console.log('playerMove', playerMove)
+        move(player, playerMove);
         if (verifyGame(player)) {
           $autoReset.checked && setTimeout(resetBoard, 1000);
           player === 0 ? scorePlayer1++ : scorePlayer2++;
@@ -55,9 +57,9 @@ $boardColumnList.forEach(($boardColumn, index) => {
   });
 });
 
-$butVsBotButton.addEventListener("click", () => {
+$butVsBotButton.addEventListener("click", async () => {
   !$butVsBotButton.classList.contains("active") &&
-    autoMove(
+    await autoMove(
       players.getAll()[0],
       players.getAll()[0],
       player,
@@ -67,8 +69,9 @@ $butVsBotButton.addEventListener("click", () => {
   $butVsBotButton.classList.toggle("active");
 });
 
-$buttonpBotPlay.addEventListener("click", () => {
-  move(player, players.getAll()[0].script(getBoardInfo(), player));
+$buttonpBotPlay.addEventListener("click", async () => {
+  const playerMove = await players.getAll()[0].script(getBoardInfo(), player)
+  move(player, playerMove);
   if (verifyGame(player)) {
     $autoReset.checked && setTimeout(resetBoard, 1000);
     player === 0 ? scorePlayer1++ : scorePlayer2++;
@@ -87,9 +90,10 @@ $meVsBot.addEventListener("click", () => {
   $meVsBot.classList.toggle("active");
 });
 
-$botVsMe.addEventListener("click", () => {
+$botVsMe.addEventListener("click", async () => {
+  const playerMove = await players.getAll()[0].script(getBoardInfo(), player)
   botVsMe = !botVsMe;
-  !$botVsMe.classList.contains("active") && move(player, players.getAll()[0].script(getBoardInfo(), player));
+  !$botVsMe.classList.contains("active") && move(player, playerMove);
   player = player === 0 ? 1 : 0;
   $botVsMe.classList.toggle("active");
 });
@@ -99,3 +103,13 @@ $buttonResetBoard.addEventListener('click', () => {
 })
 
 // CardListPriter(players.getAll());
+
+const setIndexTitle = () => {
+  const $boardItemList = document.querySelectorAll(".board-item-frame")
+
+  $boardItemList.forEach(($boardItem, index) => {
+    $boardItem.setAttribute("title", index)
+  })
+}
+
+setIndexTitle()

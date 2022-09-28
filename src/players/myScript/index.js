@@ -1,8 +1,11 @@
-const MarcosScript = (scenery, myMove) => {
-  console.log(scenery, myMove)
-  return Math.floor(Math.random() * 8)
+const MyScript = (scenery, player) => {
+    
+    return new Promise((resolver) => {
+        // Your code here
+
+        resolver(Math.floor(Math.random() * 8))
+    }, 100)
 }
 
-//retornar um número entre 0 e 7
 
-export default MarcosScript
+export default MyScript
